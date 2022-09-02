@@ -1,29 +1,30 @@
-import pandas as pd
-import glob
-import path as pth
-import fnmatch
-import os
 import datetime
-from cvc_report_excel import excel_report
-import time
+import fnmatch
+import glob
 import operator as op
+import os
+
+import pandas as pd
+from cvc_report_excel import excel_report
+
+import path as pth
+
 dossier_source = pth.dossier_source_afl
-dossier_output = pth.dossier_output_afl+'/'
-#Try reset soft
+dossier_output = pth.dossier_output_afl + '/'
 nb_files = len(fnmatch.filter(os.listdir(dossier_source), '*.xlsx'))
 dataframe_append = pd.DataFrame()
 line = 0
 print(nb_files)
 for i in range(0, nb_files):
-    print(str(i+1)+'/'+str(nb_files))
-    nom_fichier = glob.glob(dossier_source+'/*.xlsx')[i]
+    print(str(i + 1) + '/' + str(nb_files))
+    nom_fichier = glob.glob(dossier_source + '/*.xlsx')[i]
     print(nom_fichier)
-    dataframe = pd.read_excel(nom_fichier,dtype={'Matricule ' : str})
-    dataframe  = dataframe[['Date','Matricule','Nom Prénom','Entrée 1','Dernière sortie']]
+    dataframe = pd.read_excel(nom_fichier, dtype={'Matricule ': str})
+    dataframe = dataframe[['Date', 'Matricule', 'Nom Prénom', 'Entrée 1', 'Dernière sortie']]
 
-    fichier = os.path.basename(nom_fichier).replace('.xlsx','')
+    fichier = os.path.basename(nom_fichier).replace('.xlsx', '')
     dataframe['Fichier'] = fichier
-    dataframe_append = pd.concat([dataframe_append,dataframe])
+    dataframe_append = pd.concat([dataframe_append, dataframe])
     line += len(dataframe)
     dataframe_append = dataframe_append.reset_index(drop=True)
 print('Fin de compilage des fichiers')
@@ -84,3 +85,4 @@ dataframe_append['S21.G00.34.003\nAnnée de rattachement\nFormat : N(4)'] = '202
 dataframe_append = dataframe_append[['Code PAC','Mois de paie\nFormat: AAAAMM','Matricule','S21.G00.34.001\nFacteur d\'exposition\nFormat : X(2)','S21.G00.34.003\nAnnée de rattachement\nFormat : N(4)']]
 excel_report(dataframe_append,dossier_output+'Outputs_penibilité.xlsx')
 
+print('Voici mon premier Patch 1')
