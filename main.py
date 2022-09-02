@@ -9,7 +9,7 @@ import time
 import operator as op
 dossier_source = pth.dossier_source_afl
 dossier_output = pth.dossier_output_afl+'/'
-
+#Try reset hard
 nb_files = len(fnmatch.filter(os.listdir(dossier_source), '*.xlsx'))
 dataframe_append = pd.DataFrame()
 line = 0
